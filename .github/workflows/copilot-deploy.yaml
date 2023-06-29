@@ -6,6 +6,7 @@ on:
     branches: ["main"]
     paths:
       - "samples/apps/copilot-chat-app/**"
+  pull_request:
 
 permissions:
   contents: read
@@ -50,6 +51,9 @@ jobs:
           path: ./samples/apps/copilot-chat-app/deploy/publish
 
   int:
+    environment: int
+    permissions:
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -57,7 +61,6 @@ jobs:
           - { dotnet: "6.0", configuration: Release, os: ubuntu-latest }
 
     runs-on: ${{ matrix.os }}
-    environment: int
     needs: build
     steps:
       - uses: actions/checkout@v3
@@ -70,6 +73,7 @@ jobs:
           client-id: ${{secrets.AZURE_CLIENT_ID}}
           tenant-id: ${{secrets.AZURE_TENANT_ID}}
           subscription-id: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+          enable-AzPSSession: false
 
       - name: deploy-infra
         uses: azure/CLI@v1
