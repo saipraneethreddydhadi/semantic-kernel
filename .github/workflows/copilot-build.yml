@@ -36,9 +36,8 @@ jobs:
 
       - name: Package Copilot Chat WebAPI
         run: |
-          sudo apt-get install zip -y
           chmod +x $(pwd)/samples/apps/copilot-chat-app/deploy/package-webapi.sh;
-          docker run --rm -v $(pwd):/app -w /app -e GITHUB_ACTIONS='true' mcr.microsoft.com/dotnet/sdk:${{ matrix.dotnet }} /bin/sh -c "/app/samples/apps/copilot-chat-app/deploy/package-webapi.sh --configuration Release --output /app/samples/apps/copilot-chat-app/deploy";
+          docker run --rm -v $(pwd):/app -w /app -e GITHUB_ACTIONS='true' mcr.microsoft.com/dotnet/sdk:${{ matrix.dotnet }} /bin/sh -c "sudo apt-get install zip -y; /app/samples/apps/copilot-chat-app/deploy/package-webapi.sh --configuration Release --output /app/samples/apps/copilot-chat-app/deploy";
 
       - name: Set version tag
         id: versiontag
