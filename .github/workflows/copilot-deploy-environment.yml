@@ -3,10 +3,9 @@ name: copilot-deploy-environment
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches: ["copilot-ci-cd"]
     paths:
       - "samples/apps/copilot-chat-app/**"
-  pull_request:
 
 permissions:
   contents: read
@@ -26,6 +25,7 @@ jobs:
       CC_DEPLOYMENT_REGION: ${{vars.CC_DEPLOYMENT_REGION}}
       AZUREOPENAI_ENDPOINT: ${{vars.AZUREOPENAI_ENDPOINT}}
       WEBAPP_API_SKU: ${{vars.WEBAPP_API_SKU}}
+      ENVIRONMENT: int
     secrets:
       AZURE_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
       AZURE_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
@@ -38,6 +38,7 @@ jobs:
       CC_DEPLOYMENT_GROUP_NAME: ${{vars.CC_DEPLOYMENT_GROUP_NAME}}
       CC_DEPLOYMENT_NAME: ${{vars.CC_DEPLOYMENT_NAME}}
       ARTIFACT_NAME: ${{needs.build.outputs.artifact-name}}
+      ENVIRONMENT: int
     secrets:
       AZURE_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
       AZURE_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
