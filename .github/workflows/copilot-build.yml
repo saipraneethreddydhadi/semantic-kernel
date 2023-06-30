@@ -5,7 +5,7 @@ on:
     outputs:
       artifact-name:
         description: "The name of the uploaded artifact."
-        value: ${{jobs.web-api.outputs.artifact-name}}
+        value: ${{jobs.web-api.outputs.artifact_name}}
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ permissions:
 jobs:
   web-api:
     outputs:
-      artifact-name: ${{steps.artifact-output.outputs.artifact-name}}
+      artifact_name: ${{steps.artifact-output.outputs.artifact_name}}
     strategy:
       fail-fast: false
       matrix:
@@ -52,4 +52,4 @@ jobs:
           path: ./samples/apps/copilot-chat-app/deploy/publish
 
       - id: artifact-output
-        run: echo "artifact-name=copilotchat-webapi-${{ steps.versiontag.outputs.versiontag }}" >> $GITHUB_OUTPUT
+        run: echo "artifact_name=copilotchat-webapi-${{ steps.versiontag.outputs.versiontag }}" >> $GITHUB_OUTPUT
