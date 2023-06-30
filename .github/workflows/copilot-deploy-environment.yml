@@ -1,0 +1,44 @@
+name: copilot-deploy-environment
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "samples/apps/copilot-chat-app/**"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/copilot-build.yml@v1
+
+  deploy-infra:
+    needs: build
+    uses: ./.github/workflows/copilot-deploy-infra.yml@v1
+    with:
+      AZUREOPENAI__NAME: ${{vars.AZUREOPENAI__NAME}}
+      AZUREOPENAI_DEPLOYMENT_GROUP_NAME: ${{vars.AZUREOPENAI_DEPLOYMENT_GROUP_NAME}}
+      CC_DEPLOYMENT_GROUP_NAME: ${{vars.CC_DEPLOYMENT_GROUP_NAME}}
+      CC_DEPLOYMENT_NAME: ${{vars.CC_DEPLOYMENT_NAME}}
+      CC_DEPLOYMENT_REGION: ${{vars.CC_DEPLOYMENT_REGION}}
+      AZUREOPENAI_ENDPOINT: ${{vars.AZUREOPENAI_ENDPOINT}}
+      WEBAPP_API_SKU: ${{vars.WEBAPP_API_SKU}}
+    secrets:
+      AZURE_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+      AZURE_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+      AZURE_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+
+  deploy-backend:
+    needs: deploy-infra
+    uses: ./.github/workflows/copilot-deploy-backend.yml@v1
+    with:
+      CC_DEPLOYMENT_GROUP_NAME: ${{vars.CC_DEPLOYMENT_GROUP_NAME}}
+      CC_DEPLOYMENT_NAME: ${{vars.CC_DEPLOYMENT_NAME}}
+      ARTIFACT_NAME: ${{needs.build.outputs.artifact-name}}
+    secrets:
+      AZURE_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+      AZURE_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+      AZURE_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
