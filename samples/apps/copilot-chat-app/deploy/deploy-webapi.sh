@@ -67,7 +67,7 @@ fi
 az account set -s "$SUBSCRIPTION"
 
 echo "Getting Azure WebApp resource name..."
-eval WEB_APP_NAME=$(az deployment group show --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --output json | jq '.properties.outputs.webapiName.value')
+eval WEB_APP_NAME=$(az deployment group show --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --output json | jq -r '.properties.outputs.webapiName.value')
 # Ensure $WEB_APP_NAME is set
 if [[ -z "$WEB_APP_NAME" ]]; then
     echo "Could not get Azure WebApp resource name from deployment output."
@@ -90,5 +90,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-eval WEB_APP_URL=$(az deployment group show --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --output json | jq '.properties.outputs.webapiUrl.value')
+eval WEB_APP_URL=$(az deployment group show --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --output json | jq -r '.properties.outputs.webapiUrl.value')
 echo "To verify your deployment, go to 'https://$WEB_APP_URL/healthz' in your browser."
