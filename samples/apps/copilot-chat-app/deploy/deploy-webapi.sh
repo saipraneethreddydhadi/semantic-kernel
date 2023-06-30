@@ -83,10 +83,10 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "Deploying '$PackageFilePath' to Azure WebApp '$WEB_APP_NAME'..."
+echo "Deploying '$PACKAGE_FILE_PATH' to Azure WebApp '$WEB_APP_NAME'..."
 az webapp deployment source config-zip --resource-group $RESOURCE_GROUP --name $WEB_APP_NAME --src $PACKAGE_FILE_PATH
 if [ $? -ne 0 ]; then
-    echo "Could not deploy '$PackageFilePath' to Azure WebApp '$WEB_APP_NAME'."
+    echo "Could not deploy '$PACKAGE_FILE_PATH' to Azure WebApp '$WEB_APP_NAME'."
     exit 1
 fi
 
