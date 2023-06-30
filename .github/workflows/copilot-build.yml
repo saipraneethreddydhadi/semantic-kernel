@@ -5,7 +5,7 @@ on:
     outputs:
       artifact-name:
         description: "The name of the uploaded artifact."
-        value: ${{jobs.web-api.outputs.artifactName}}
+        value: ${{jobs.web-api.outputs.artifact-name}}
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ permissions:
 jobs:
   web-api:
     outputs:
-      artifactName: ${{steps.artifact-output.outputs.artifact-name}}
+      artifact-name: ${{steps.artifact-output.outputs.artifact-name}}
     strategy:
       fail-fast: false
       matrix:
