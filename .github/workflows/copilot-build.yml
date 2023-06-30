@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: copilotchat-webapi-${{ steps.versiontag.outputs.versiontag }}
-          path: ./samples/apps/copilot-chat-app/deploy/out/webapp.zip
+          path: ${{ github.workspace }}/samples/apps/copilot-chat-app/deploy/out/webapi.zip
 
       - name: "Set outputs"
         id: artifactoutput
