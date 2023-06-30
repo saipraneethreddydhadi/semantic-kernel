@@ -26,7 +26,7 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
 
   deploy-backend:
-    needs: deploy-infra
+    needs: [build, deploy-infra]
     uses: ./.github/workflows/copilot-deploy-backend.yml
     with:
       ARTIFACT_NAME: ${{needs.build.outputs.artifact}}
