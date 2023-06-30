@@ -19,13 +19,6 @@ jobs:
     needs: build
     uses: ./.github/workflows/copilot-deploy-infra.yml
     with:
-      AZUREOPENAI__NAME: ${{vars.AZUREOPENAI__NAME}}
-      AZUREOPENAI_DEPLOYMENT_GROUP_NAME: ${{vars.AZUREOPENAI_DEPLOYMENT_GROUP_NAME}}
-      CC_DEPLOYMENT_GROUP_NAME: ${{vars.CC_DEPLOYMENT_GROUP_NAME}}
-      CC_DEPLOYMENT_NAME: ${{vars.CC_DEPLOYMENT_NAME}}
-      CC_DEPLOYMENT_REGION: ${{vars.CC_DEPLOYMENT_REGION}}
-      AZUREOPENAI_ENDPOINT: ${{vars.AZUREOPENAI_ENDPOINT}}
-      WEBAPP_API_SKU: ${{vars.WEBAPP_API_SKU}}
       ENVIRONMENT: int
     secrets:
       AZURE_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
@@ -36,8 +29,6 @@ jobs:
     needs: deploy-infra
     uses: ./.github/workflows/copilot-deploy-backend.yml
     with:
-      CC_DEPLOYMENT_GROUP_NAME: ${{vars.CC_DEPLOYMENT_GROUP_NAME}}
-      CC_DEPLOYMENT_NAME: ${{vars.CC_DEPLOYMENT_NAME}}
       ARTIFACT_NAME: ${{needs.build.outputs.artifact-name}}
       ENVIRONMENT: int
     secrets:

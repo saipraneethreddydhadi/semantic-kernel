@@ -3,27 +3,6 @@ name: copilot-deploy-infra
 on:
   workflow_call:
     inputs:
-      AZUREOPENAI__NAME:
-        required: true
-        type: string
-      AZUREOPENAI_DEPLOYMENT_GROUP_NAME:
-        required: true
-        type: string
-      CC_DEPLOYMENT_GROUP_NAME:
-        required: true
-        type: string
-      CC_DEPLOYMENT_NAME:
-        required: true
-        type: string
-      CC_DEPLOYMENT_REGION:
-        required: true
-        type: string
-      AZUREOPENAI_ENDPOINT:
-        required: true
-        type: string
-      WEBAPP_API_SKU:
-        required: true
-        type: string
       ENVIRONMENT:
         required: true
         type: string
