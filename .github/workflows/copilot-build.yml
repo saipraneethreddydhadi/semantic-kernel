@@ -3,17 +3,15 @@ name: copilot-build
 on:
   workflow_call:
     outputs:
-      artifact_name:
+      artifact:
         description: "The name of the uploaded artifact."
-        value: ${{jobs.web-api.outputs.artifact_name}}
+        value: ${{jobs.web-api.outputs.artifact}}
 
 permissions:
   contents: read
 
 jobs:
   web-api:
-    outputs:
-      artifact_name: ${{steps.artifact-output.outputs.artifact_name}}
     strategy:
       fail-fast: false
       matrix:
@@ -24,6 +22,9 @@ jobs:
 
     env:
       NUGET_CERT_REVOCATION_MODE: offline
+
+    outputs:
+      artifact: ${{steps.artifactoutput.outputs.artifactname}}
 
     steps:
       - uses: actions/checkout@v3
@@ -51,5 +52,6 @@ jobs:
           name: copilotchat-webapi-${{ steps.versiontag.outputs.versiontag }}
           path: ./samples/apps/copilot-chat-app/deploy/publish
 
-      - id: artifact-output
-        run: echo "artifact_name=copilotchat-webapi-${{ steps.versiontag.outputs.versiontag }}" >> $GITHUB_OUTPUT
+      - name: "Set outputs"
+        id: artifactoutput
+        run: echo "artifactname=copilotchat-webapi-${{ steps.versiontag.outputs.versiontag }}" >> $GITHUB_OUTPUT
