@@ -3,9 +3,6 @@ name: copilot-deploy-backend
 on:
   workflow_call:
     inputs:
-      ARTIFACT_NAME:
-        required: true
-        type: string
       ENVIRONMENT:
         required: true
         type: string
@@ -37,10 +34,8 @@ jobs:
         with:
           clean: true
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: ${{inputs.ARTIFACT_NAME}}
-          path: webApiPackage
+      - name: "Install SWA CLI"
+        run: npm install -g @azure/static-web-apps-cli
 
       - name: Azure login
         uses: azure/login@v1
@@ -50,9 +45,11 @@ jobs:
           subscription-id: ${{secrets.AZURE_SUBSCRIPTION_ID}}
           enable-AzPSSession: false
 
-      - name: deploy-infra
+      - name: frontend
         uses: azure/CLI@v1
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            samples/apps/copilot-chat-app/deploy/deploy-webapi.sh --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --deployment-name ${{vars.CC_DEPLOYMENT_NAME}} --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --package webApiPackage/webapi.zip
+            webappName=$(az deployment group show --name ${{vars.CC_DEPLOYMENT_NAME}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --output json | ConvertFrom-Json).properties.outputs.webappName.value
+            SWA_CLI_DEPLOYMENT_TOKEN=$(az staticwebapp secrets list --name $webappName --query "properties.apiKey")
+            samples/apps/copilot-chat-app/deploy/deploy-webapp.ps1 --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --deployment-name ${{vars.CC_DEPLOYMENT_NAME}} --application-id ${{vars.APPLICATION_CLIENT_ID}}
