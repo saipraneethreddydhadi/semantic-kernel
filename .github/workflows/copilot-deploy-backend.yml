@@ -40,6 +40,11 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: ${{inputs.ARTIFACT_NAME}}
+          path: "${{ github.workspace }}/${{inputs.ARTIFACT_NAME}}"
+
+      - name: "Display downloaded content"
+        run: ls -R
+        working-directory: "${{ github.workspace }}/${{inputs.ARTIFACT_NAME}}"
 
       - name: Azure login
         uses: azure/login@v1
