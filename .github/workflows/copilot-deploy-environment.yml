@@ -12,11 +12,11 @@ permissions:
 
 jobs:
   build:
-    uses: ./.github/workflows/copilot-build.yml@v1
+    uses: ./.github/workflows/copilot-build.yml
 
   deploy-infra:
     needs: build
-    uses: ./.github/workflows/copilot-deploy-infra.yml@v1
+    uses: ./.github/workflows/copilot-deploy-infra.yml
     with:
       AZUREOPENAI__NAME: ${{vars.AZUREOPENAI__NAME}}
       AZUREOPENAI_DEPLOYMENT_GROUP_NAME: ${{vars.AZUREOPENAI_DEPLOYMENT_GROUP_NAME}}
@@ -33,7 +33,7 @@ jobs:
 
   deploy-backend:
     needs: deploy-infra
-    uses: ./.github/workflows/copilot-deploy-backend.yml@v1
+    uses: ./.github/workflows/copilot-deploy-backend.yml
     with:
       CC_DEPLOYMENT_GROUP_NAME: ${{vars.CC_DEPLOYMENT_GROUP_NAME}}
       CC_DEPLOYMENT_NAME: ${{vars.CC_DEPLOYMENT_NAME}}
