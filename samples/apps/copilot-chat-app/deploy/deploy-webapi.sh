@@ -74,7 +74,7 @@ if [[ -z "$WEB_APP_NAME" ]]; then
     exit 1
 fi
 
-echo "Azure WebApp name: $webappName"
+echo "Azure WebApp name: $WEB_APP_NAME"
 
 echo "Configuring Azure WebApp to run from package..."
 az webapp config appsettings set --resource-group $RESOURCE_GROUP --name $WEB_APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE="1"
@@ -83,10 +83,10 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "Deploying '$PackageFilePath' to Azure WebApp '$webappName'..."
+echo "Deploying '$PackageFilePath' to Azure WebApp '$WEB_APP_NAME'..."
 az webapp deployment source config-zip --resource-group $RESOURCE_GROUP --name $WEB_APP_NAME --src $PACKAGE_FILE_PATH
 if [ $? -ne 0 ]; then
-    echo "Could not deploy '$PackageFilePath' to Azure WebApp '$webappName'."
+    echo "Could not deploy '$PackageFilePath' to Azure WebApp '$WEB_APP_NAME'."
     exit 1
 fi
 
