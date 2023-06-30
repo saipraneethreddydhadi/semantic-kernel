@@ -5,13 +5,13 @@ on:
     outputs:
       artifact-name:
         description: "The name of the uploaded artifact."
-        value: ${{jobs.build.outputs.artifactName}}
+        value: ${{jobs.web-api.outputs.artifactName}}
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  web-api:
     outputs:
       artifactName: ${{steps.artifact-output.outputs.artifact-name}}
     strategy:

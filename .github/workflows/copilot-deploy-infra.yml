@@ -15,7 +15,7 @@ on:
         required: true
 
 jobs:
-  deploy-infra:
+  deploy:
     environment: ${{inputs.ENVIRONMENT}}
     permissions:
       contents: read
