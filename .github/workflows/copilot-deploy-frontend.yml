@@ -51,5 +51,6 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             webappName=$(az deployment group show --name ${{vars.CC_DEPLOYMENT_NAME}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --output json | jq -r '.properties.outputs.webappName')
-            SWA_CLI_DEPLOYMENT_TOKEN=$(az staticwebapp secrets list --name $webappName --query "properties.apiKey")
+            swaToken=$(az staticwebapp secrets list --name $webappName --query "properties.apiKey")
+            echo "SWA_CLI_DEPLOYMENT_TOKEN=$swaToken" >> $GITHUB_ENV
             samples/apps/copilot-chat-app/deploy/deploy-webapp.ps1 --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --deployment-name ${{vars.CC_DEPLOYMENT_NAME}} --application-id ${{vars.APPLICATION_CLIENT_ID}}
