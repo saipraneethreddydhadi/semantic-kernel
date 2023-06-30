@@ -56,7 +56,7 @@ jobs:
 
       - name: Get app name
         run: |
-          WEB_APP_NAME=$(az deployment group show --name ${{vars.CC_DEPLOYMENT_NAME}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --output json | jq '.properties.outputs.webapiName.value')
+          WEB_APP_NAME=$(az deployment group show --name ${{vars.CC_DEPLOYMENT_NAME}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --output json | jq -r '.properties.outputs.webapiName.value')
           echo "AZURE_WEBAPP_NAME=$WEB_APP_NAME" >> >> $GITHUB_ENV
 
       - name: "Run Azure webapp deploy action using publish profile credentials"
