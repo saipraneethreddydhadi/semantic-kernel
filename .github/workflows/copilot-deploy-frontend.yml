@@ -56,9 +56,8 @@ jobs:
             echo "SWA_CLI_DEPLOYMENT_TOKEN=$swaToken" >> $GITHUB_ENV
 
       - name: Deploy SWA
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.30.0
-          inlineScript: |
-            npm install -g yarn
-            samples/apps/copilot-chat-app/deploy/deploy-webapp.sh --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --deployment-name ${{vars.CC_DEPLOYMENT_NAME}} --application-id ${{vars.APPLICATION_CLIENT_ID}}
+        run: |
+          npm install -g yarn
+          apt-get install curl -y
+          curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+          samples/apps/copilot-chat-app/deploy/deploy-webapp.sh --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --resource-group ${{vars.CC_DEPLOYMENT_GROUP_NAME}} --deployment-name ${{vars.CC_DEPLOYMENT_NAME}} --application-id ${{vars.APPLICATION_CLIENT_ID}}
