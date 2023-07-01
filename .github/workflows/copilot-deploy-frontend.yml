@@ -37,6 +37,9 @@ jobs:
       - name: "Install SWA CLI"
         run: npm install -g @azure/static-web-apps-cli
 
+      - name: Install yarn
+        run: npm install -g yarn
+
       - name: Azure login
         uses: azure/login@v1
         with:

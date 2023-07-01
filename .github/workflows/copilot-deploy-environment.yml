@@ -6,6 +6,7 @@ on:
     branches: ["copilot-ci-cd"]
     paths:
       - "samples/apps/copilot-chat-app/**"
+      - ".github/workflows/copilot-deploy*"
 
 permissions:
   contents: read
