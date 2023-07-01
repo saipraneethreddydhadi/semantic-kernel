@@ -85,13 +85,15 @@ echo "REACT_APP_SK_API_KEY=$WEB_API_KEY" >> $ENV_FILE_PATH
 
 echo "Writing swa-cli.config.json..."
 SWA_CONFIG_FILE_PATH="$SCRIPT_ROOT/../webapp/swa-cli.config.json"
-sed "s/{{appDevserverUrl}}/https:\/\/${WEB_APP_URL}/g" $SCRIPT_ROOT/../webapp/template.swa-cli.config.json > $SWA_CONFIG_FILE_PATH
-cat $SWA_CONFIG_FILE_PATH
+SWA_CONFIG_TEMPLATE_FILE_PATH="$SCRIPT_ROOT/../webapp/template.swa-cli.config.json"
+swaConfig=`cat $SWA_CONFIG_TEMPLATE_FILE_PATH`
+swaConfig=$(echo $swaConfig | sed "s/{{appDevserverUrl}}/https:\/\/${WEB_APP_URL}/")
+swaConfig=$(echo $swaConfig | sed "s/{{appName}}/$WEB_API_NAME/")
+swaConfig=$(echo $swaConfig | sed "s/{{resourceGroup}}/$RESOURCE_GROUP/")
+swaConfig=$(echo $swaConfig | sed "s/{{subscription-id}}/$SUBSCRIPTION/")
+echo $swaConfig > $SWA_CONFIG_FILE_PATH
 
 pushd "$SCRIPT_ROOT/../webapp"
-
-ORIGIN="https://$WEB_APP_URL"
-echo "Ensuring CORS origin '$ORIGIN' to webapi '$WEB_API_NAME'..."
 
 echo "Installing yarn dependencies..."
 yarn install
