@@ -36,7 +36,7 @@ jobs:
 
       - name: Install Azure CLI
         run: |
-          apt-get install curl -y
+          sudo apt-get install curl -y
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
       - name: "Install SWA CLI"
